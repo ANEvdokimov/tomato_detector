@@ -3,7 +3,7 @@ import cv2
 
 def detect(image, min_radius=100, max_radius=300):
     image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    return cv2.HoughCircles(image_gray, cv2.HOUGH_GRADIENT, 1, 100, param1=20, param2=30,
+    return cv2.HoughCircles(image_gray, cv2.HOUGH_GRADIENT, 1, 100, param1=25, param2=28,
                             minRadius=min_radius, maxRadius=max_radius)
 
 

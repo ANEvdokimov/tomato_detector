@@ -1,11 +1,13 @@
 import cv2
 from Main import blob_detector
-# from Main import circles_detector
+from Main import circles_detector
 from Main import iem
 from Main import hole_filler
+from Main import temp
 
 
-vid = cv2.VideoCapture("../Dataset/1_720.mp4")
+vid = cv2.VideoCapture("../Dataset/2_720.mp4")
+# vid = cv2.VideoCapture("C:/Users/evdok/Desktop/tomatoes.mp4")
 # frame_height = vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
 
 while vid.isOpened():
@@ -81,14 +83,21 @@ while vid.isOpened():
     # image_with_circles = \
     #     circles_detector.draw_circles(cv2.bitwise_and(image_source, image_source, mask=mask_fruit_dilate), circles)
 
-    # Using simple blob detector
-    # mask_fruit_dilate_without_holes = hole_filler.fill(mask_fruit_dilate)
-    # blobs = blob_detector.detect(mask_fruit_dilate)
-    # image_with_circles = blob_detector.draw_keypoints(mask_fruit_dilate, blobs)
-    blobs = \
-        blob_detector.detect(cv2.bitwise_and(image_source, image_source, mask=mask_fruit_dilate))
-    image_with_circles = blob_detector.draw_keypoints(image_source, blobs)
-    # cv2.imshow("circle", image_with_circles)
+    # # Using simple blob detector
+    # # mask_fruit_dilate_without_holes = hole_filler.fill(mask_fruit_dilate)
+    # # blobs = blob_detector.detect(mask_fruit_dilate)
+    # # image_with_circles = blob_detector.draw_keypoints(mask_fruit_dilate, blobs)
+    # blobs_single_tomatoes = blob_detector.detect(
+    #     blob_detector.get_parameters_for_single_tomato(image_source.shape[0], image_source.shape[1]),
+    #     cv2.bitwise_and(image_source, image_source, mask=mask_fruit_dilate)
+    # )
+    # image_with_circles = blob_detector.draw_keypoints(image_source, blobs_single_tomatoes, (0, 255, 0))
+    # # cv2.imshow("circle", image_with_circles)
+
+    new_mask = hole_filler.fill(cv2.bitwise_and(image_source, image_source, mask=mask_fruit_dilate), mask_fruit_dilate)
+    # cv2.imwrite("c:/Users/evdok/Desktop/mask.jpg", mask_fruit_dilate)
+    # cv2.imwrite("c:/Users/evdok/Desktop/mask_w_h.jpg", new_mask)
+    image_with_circles = temp.segmentation(image_source, new_mask)
 
     cv2.imshow('detected circles', image_with_circles)
     if cv2.waitKey(80) & 0xFF == ord('q'):
