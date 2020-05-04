@@ -6,7 +6,7 @@ import cv2
 import copy
 
 
-def segmentation(mask):
+def find_tomatoes(mask):
     mask_copy = copy.copy(mask)
 
     # compute the exact Euclidean distance from every binary
@@ -49,7 +49,7 @@ def get_parameters_for_single_tomato(frame_height, frame_width):
 
     parameters.filterByColor = False
 
-    parameters.filterByArea = True
+    parameters.filterByArea = False
     parameters.minArea = frame_height/10 * frame_width/10
     parameters.maxArea = frame_height/3 * frame_width/3
 
