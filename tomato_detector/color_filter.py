@@ -17,6 +17,7 @@ def find_tomatoes_by_color(image_bgr, color_range_hsv):
     image_hsv_without_background_and_leafs = cv2.bitwise_and(image_hsv, image_hsv, mask=mask_without_background_leafs)
     mask_red_tomatoes = cv2.inRange(
         image_hsv_without_background_and_leafs,
+        # image_hsv,
         color_range_hsv["min"],
         color_range_hsv["max"]
     )
