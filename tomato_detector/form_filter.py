@@ -6,7 +6,7 @@ import numpy as np
 import cv2
 
 
-def find_tomatoes(mask, blob_detector, split_tomatoes):
+def find_tomatoes(image_bgr, mask, blob_detector, split_tomatoes):
     if split_tomatoes:
         mask_copy = hole_filler.fill(mask)
 
@@ -38,7 +38,9 @@ def find_tomatoes(mask, blob_detector, split_tomatoes):
             mask_with_one_object = np.zeros(mask_copy.shape, dtype="uint8")
             mask_with_one_object[labels == label] = 255
 
-            keypoint = blob_detector.detect(mask_with_one_object)
+            image_gray = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2GRAY)
+            image_with_one_tomato = cv2.bitwise_and(image_gray, image_gray, mask=mask_with_one_object)
+            keypoint = blob_detector.detect(image_with_one_tomato)
             if len(keypoint) != 0:
                 keypoints = keypoints + keypoint
                 masks_tomatoes.append(mask_with_one_object)

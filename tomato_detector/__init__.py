@@ -27,7 +27,7 @@ def detect_in_image(image, color_ranges_hsv=None, equalize_light=True, color_bal
     for name, color_range in color_ranges_hsv.items():
         mask_tomatoes = color_filter.find_tomatoes_by_color(image_source_blur, color_range)
         mask_tomatoes_processed = cv2.morphologyEx(mask_tomatoes, cv2.MORPH_OPEN, (50, 50), iterations=5)
-        tomato_keypoints[name], masks_tomatoes[name] = form_filter.find_tomatoes(mask_tomatoes_processed,
+        tomato_keypoints[name], masks_tomatoes[name] = form_filter.find_tomatoes(image_source_blur, mask_tomatoes_processed,
                                                                                  blob_detector, split_tomatoes)
 
     return tomato_keypoints, masks_tomatoes
