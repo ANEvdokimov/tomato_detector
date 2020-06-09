@@ -5,9 +5,8 @@ import numpy as np
 def equalize_light(image):
     """
     Выравнивание яркости bgr-изображения для повышения контраста
-    Equation the brightness of a bgr-image to enhance contrast
 
-    image -- an BGR-image
+    image -- BGR-изображение
     """
     clahe = cv2.createCLAHE(clipLimit=3)
     image_lab = cv2.cvtColor(image, cv2.COLOR_BGR2LAB)
@@ -20,10 +19,9 @@ def equalize_light(image):
 
 def white_balance(image):
     """
-    Корректировка баланса юелого изображения (Gray World)
-    Adjusting the image white balance (Gray World)
+    Корректировка баланса белого изображения (Gray World)
 
-    image -- an BGR-image
+    image -- BGR-изображение
     """
     image_lab = cv2.cvtColor(image, cv2.COLOR_BGR2LAB)
     avg_a = np.average(image_lab[:, :, 1])
