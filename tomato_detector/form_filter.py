@@ -46,7 +46,7 @@ def find_tomatoes(image_bgr, mask, blob_detector, split_tomatoes=True):
     else:
         # Без разделения соприкасающихся объектов
         image_gray = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2GRAY)
-        return blob_detector.detect(image_gray, image_gray, mask=mask)
+        return blob_detector.detect(cv2.bitwise_and(image_gray, image_gray, mask=mask))
 
 
 def get_parameters_for_single_tomato(frame_height, frame_width):
