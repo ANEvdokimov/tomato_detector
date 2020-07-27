@@ -1,6 +1,6 @@
 from tomato_detector import hole_filler
 from skimage.feature import peak_local_max
-from skimage.morphology import watershed
+from skimage.segmentation import watershed
 from scipy import ndimage
 import numpy as np
 import cv2
