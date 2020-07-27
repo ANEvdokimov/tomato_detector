@@ -6,7 +6,7 @@ import numpy as np
 import cv2
 
 
-def find_tomatoes(image_bgr, mask, blob_detector, split_tomatoes=True):
+def find_tomatoes(image_bgr, mask, blob_detector, split_tomatoes=True, min_distance_when_splitting=0):
     """
     Функция поиска на бинаризованном изображении объектов, внешне похожих на плод томата
 
@@ -14,6 +14,7 @@ def find_tomatoes(image_bgr, mask, blob_detector, split_tomatoes=True):
     mask -- бинаризованное изображение
     blob_detector -- экземпляр Simple_Blob_Detector
     split_tomatoes -- (boolean) Включение/отключение разделения объектов на бинаризованном изображении
+    min_distance_when_splitting -- минимальное расстояние между центрами искомых объектов (при разделении объектов)
     """
     if split_tomatoes:
         # С разделением соприкасающихся объектов
@@ -23,8 +24,8 @@ def find_tomatoes(image_bgr, mask, blob_detector, split_tomatoes=True):
 
         # Подробнее описано https://www.pyimagesearch.com/2015/11/02/watershed-opencv/
         distance_map = ndimage.distance_transform_edt(mask_copy)
-        min_distance = mask.shape[0]/10
-        local_max = peak_local_max(distance_map, indices=False, min_distance=np.uint8(min_distance), labels=mask_copy)
+        local_max = peak_local_max(distance_map, indices=False, min_distance=np.uint8(min_distance_when_splitting),
+                                   labels=mask_copy)
         markers = ndimage.label(local_max, structure=np.ones((3, 3)))[0]
         labels = watershed(-distance_map, markers, mask=mask_copy)
 

@@ -8,7 +8,7 @@ DEFAULT_COLOR_SETTINGS = {"red": {"min": (0, 132, 0), "max": (179, 255, 255)}}
 
 
 def detect_in_image(image, color_ranges_hsv=None, equalize_light=True, color_balance=True, split_tomatoes=True,
-                    simple_blob_detector_params=None):
+                    simple_blob_detector_params=None, min_distance_when_splitting=0):
     """
     Функция обнаружения плодов томата на изображении
 
@@ -49,6 +49,7 @@ def detect_in_image(image, color_ranges_hsv=None, equalize_light=True, color_bal
         mask_tomatoes_processed = cv2.morphologyEx(mask_tomatoes, cv2.MORPH_OPEN, (50, 50), iterations=5)
         # Разделение объектов и фильрация по внешней форме
         tomato_keypoints[name] = \
-            form_filter.find_tomatoes(image_source_blur, mask_tomatoes_processed, blob_detector, split_tomatoes)
+            form_filter.find_tomatoes(image_source_blur, mask_tomatoes_processed, blob_detector, split_tomatoes,
+                                      min_distance_when_splitting)
 
     return tomato_keypoints, mask_tomatoes_processed
